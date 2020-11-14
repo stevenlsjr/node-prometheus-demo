@@ -22,4 +22,12 @@ kubectl apply -k manifests
 ```
 
 If you want to use a custom image, modify the `images` field in [manifests/kustomization.yaml] to your given
-image name and tag
+image name and tag. Once deployed, you can make requests to the service, which the counter then collects metrics for:
+```bash
+curl nodejs-metrics-demo.local/?status=200  # returns a sucessful status
+curl nodejs-metrics-demo.local/?status=404  # returns not found status
+curl nodejs-metrics-demo.local/metrics      # returns metrics endpoint
+```
+
+manifests/monitoring.yaml defines a prometheus PodMonitor resource, which automatically configures prometheus to
+scrape the server pods for metrics
