@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: server
-        image: stevenlsjr/prom-demo:latest
+        image: prometheus-demo
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000
