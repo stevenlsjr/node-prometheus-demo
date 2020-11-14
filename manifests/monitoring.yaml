@@ -1,0 +1,18 @@
+# since we can't share metrics between pods in a service, we'll
+# monitor the pods individually. This resource configures kube-prometheus
+# to scrape the /metrics endpoint on the app every 30 seconds
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: node-client-monitor
+  namespace: monitoring
+  labels:
+spec:
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app:  nodejs-metrics-demo
+  podMetricsEndpoints:
+  - port: http
+    interval: 30s

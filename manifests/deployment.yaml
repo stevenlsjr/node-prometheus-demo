@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: nodejs-metrics-demo
+  labels:
+    app: nodejs-metrics-demo
+spec:
+  selector:
+    matchLabels:
+      app: nodejs-metrics-demo
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nodejs-metrics-demo
+    spec:
+      containers:
+      - name: server
+        image: stevenlsjr/prom-demo:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3000
+          name: http
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
+        env:
+          - name: NODE_HOST
+            value: '0.0.0.0'
+          - name: NODE_PORT
+            value: '3000'
+        resources:
